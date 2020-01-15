@@ -130,7 +130,6 @@ func createJobConfigs(db domain.DatabaseConnection, orgID, scannerSCID, ticketSC
 	check(err)
 }
 
-// TODO setup concurrency in auth configs
 func createSources(reader *bufio.Reader, aesClient crypto.Client, db domain.DatabaseConnection, orgID string) (scannerSC, ticketSC domain.SourceConfig, assetGroups []int) {
 	sources, err := db.GetSources()
 	check(err)
@@ -140,9 +139,14 @@ func createSources(reader *bufio.Reader, aesClient crypto.Client, db domain.Data
 		sourceNameToID[source.Source()] = source.ID()
 	}
 
-	fmt.Println("Now let's get your sources setup! We'll start with the essentials")
 	scannerSC, assetGroups = createScannerSourceConfig(reader, aesClient, db, orgID, sourceNameToID)
 	ticketSC = createTicketSourceConfig(reader, aesClient, db, orgID, sourceNameToID)
+
+	_, _, err = db.UpdateSourceConfigConcurrencyByID(scannerSC.ID(), 10, 0, 10)
+	check(err)
+
+	_, _, err = db.UpdateSourceConfigConcurrencyByID(ticketSC.ID(), 10, 0, 10)
+	check(err)
 
 	return scannerSC, ticketSC, assetGroups
 }
@@ -231,15 +235,16 @@ func createTicketSourceConfig(reader *bufio.Reader, aesClient crypto.Client, db 
 
 		body, err := json.Marshal(&payload)
 
-		source := strings.ToLower(integrations.JIRA)
+		source := integrations.JIRA
 		fmt.Println("Finished! Creating source config")
-		_, _, err = db.CreateSourceConfig(integrations.JIRA, sourceNameToID[source], orgID, address, port, user, pass, "", "", "", string(body))
+		_, _, err = db.CreateSourceConfig(source, sourceNameToID[source], orgID, address, port, user, pass, "", "", "", string(body))
 		check(err)
 
 		sourceConfigs, err := db.GetSourceConfigBySourceID(orgID, sourceNameToID[source])
 		check(err)
 
 		if len(sourceConfigs) > 0 {
+			// TODO {"Delay": 20 "Retries": 1 "Concurrency": 10}
 			ticketSourceConfig = sourceConfigs[0]
 			break
 		} else {
@@ -414,10 +419,6 @@ func generateSecureEncryptionKey() (ekey string) {
 func loadDatabaseConnectionAppConfig(path string) (db domain.DatabaseConnection, appConfig config.AppConfig) {
 	var err error
 	appConfig, err = config.LoadConfigByPath(path)
-	check(err)
-	kmsClient, err := crypto.CreateKMSClientWithProfile(appConfig.EKey, "")
-	check(err)
-	appConfig.DatabasePassword, err = kmsClient.Decrypt(appConfig.DatabasePassword)
 	check(err)
 	db, err = database.NewConnection(appConfig)
 	check(err)

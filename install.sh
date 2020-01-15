@@ -11,18 +11,16 @@ go install aegis/aegis.go
 go install aegis-api/aegis-api.go
 go install aegis-scaffold/aegis-scaffold.go
 go install aegis-setup/install-config/install-config.go
-go install aegis-setup/install-db/install-db.go
+go install aegis-setup/install-org/install-org.go
 
 install-config -path $GOPATH/src/nortonlifelock
 
-# sudo required because go modules don't allow reading
-# TODO is there a way to avoid sudo?
-sudo aegis-scaffold -config app.json \
+aegis-scaffold -config app.json \
     -cpath $GOPATH/src/nortonlifelock \
-    -domain $GOPATH/pkg/mod/github.com/nortonlifelock/domain\@v1.0.0 \
-    -dal $GOPATH/pkg/mod/github.com/nortonlifelock/database\@v1.0.0 \
+    -domain $GOPATH/pkg/mod/github.com/nortonlifelock/domain\@v1.0.1-0.20200115222954-e687eaaa4352 \
+    -dal $GOPATH/pkg/mod/github.com/nortonlifelock/database\@v1.0.1-0.20200115223011-2830f95ef135 \
     -sproc $GOPATH/src/nortonlifelock/aegis-db/procedures \
     -migrate $GOPATH/src/nortonlifelock/aegis-db/migrations \
     -tpath $GOPATH/src/nortonlifelock/aegis-scaffold -m
   
-install-db -path $GOPATH/src/nortonlifelock/app.json
+install-org -path $GOPATH/src/nortonlifelock/app.json

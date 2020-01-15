@@ -2,10 +2,12 @@
 ## Prerequisites
 * go installed
 * $GOPATH set
+* Have ~/.aws/credentials and ~/.aws/config setup
 
 ## Have ready
 * Credentials for all API accounts
 * An enumeration of the asset groups you plan on rescanning (comma separated)
+* AWS KMS encryption key
 ### Nexpose
 * Templates for your vulnerability/discovery scans existing in your Nexpose instance and their IDs
 * Nexpose site ID (integer) that you will be using for vulnerability rescans
