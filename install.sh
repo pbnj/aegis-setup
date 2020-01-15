@@ -1,6 +1,4 @@
-# TODO - check if go is installed/GOPATH is set?
 # TODO - how to handle versions?
-# TODO make sure they created the schema yet
 cd $GOPATH/src/nortonlifelock || exit
 
 git clone https://github.com/nortonlifelock/aegis-scaffold.git
@@ -19,6 +17,7 @@ install-config -path $GOPATH/src/nortonlifelock
 
 # sudo required because go modules don't allow reading
 # TODO is there a way to avoid sudo?
+# TODO avoid procedure flag - separate db procedure generation from go code procedure generation
 sudo aegis-scaffold -config app.json \
     -cpath $GOPATH/src/nortonlifelock \
     -domain $GOPATH/pkg/mod/github.com/nortonlifelock/domain\@v1.0.0 \
@@ -27,4 +26,4 @@ sudo aegis-scaffold -config app.json \
     -migrate $GOPATH/src/nortonlifelock/aegis-db/migrations \
     -tpath $GOPATH/src/nortonlifelock/aegis-scaffold -m -p
   
-install-db
+install-db -path $GOPATH/src/nortonlifelock/app.json
