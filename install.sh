@@ -17,13 +17,12 @@ install-config -path $GOPATH/src/nortonlifelock
 
 # sudo required because go modules don't allow reading
 # TODO is there a way to avoid sudo?
-# TODO avoid procedure flag - separate db procedure generation from go code procedure generation
 sudo aegis-scaffold -config app.json \
     -cpath $GOPATH/src/nortonlifelock \
     -domain $GOPATH/pkg/mod/github.com/nortonlifelock/domain\@v1.0.0 \
     -dal $GOPATH/pkg/mod/github.com/nortonlifelock/database\@v1.0.0 \
     -sproc $GOPATH/src/nortonlifelock/aegis-db/procedures \
     -migrate $GOPATH/src/nortonlifelock/aegis-db/migrations \
-    -tpath $GOPATH/src/nortonlifelock/aegis-scaffold -m -p
+    -tpath $GOPATH/src/nortonlifelock/aegis-scaffold -m
   
 install-db -path $GOPATH/src/nortonlifelock/app.json
