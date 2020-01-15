@@ -7,14 +7,20 @@ git clone https://github.com/nortonlifelock/aegis-api.git
 git clone https://github.com/nortonlifelock/aegis-db.git
 git clone https://github.com/nortonlifelock/aegis-ui.git
 
+cd $GOPATH/src/nortonlifelock/aegis || exit
+go install aegis.go
+
+cd $GOPATH/src/nortonlifelock/aegis-api || exit
+go install aegis-api.go
+
+cd $GOPATH/src/nortonlifelock/aegis-scaffold || exit
+go install aegis-scaffold.go
+
+cd $GOPATH/src/nortonlifelock/aegis-setup || exit
 go get github.com/nortonlifelock/domain@master
 go get github.com/nortonlifelock/database@master
-
-go install aegis/aegis.go
-go install aegis-api/aegis-api.go
-go install aegis-scaffold/aegis-scaffold.go
-go install aegis-setup/install-config/install-config.go
-go install aegis-setup/install-org/install-org.go
+go install install-config/install-config.go
+go install install-org/install-org.go
 
 install-config -path $GOPATH/src/nortonlifelock
 
