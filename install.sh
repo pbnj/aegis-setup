@@ -17,8 +17,6 @@ cd $GOPATH/src/nortonlifelock/aegis-scaffold || exit
 go install aegis-scaffold.go
 
 cd $GOPATH/src/nortonlifelock/aegis-setup || exit
-go get github.com/nortonlifelock/domain@master
-go get github.com/nortonlifelock/database@master
 go install install-config/install-config.go
 go install install-org/install-org.go
 
