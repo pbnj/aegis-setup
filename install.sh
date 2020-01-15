@@ -7,6 +7,9 @@ git clone https://github.com/nortonlifelock/aegis-api.git
 git clone https://github.com/nortonlifelock/aegis-db.git
 git clone https://github.com/nortonlifelock/aegis-ui.git
 
+go get github.com/nortonlifelock/domain@master
+go get github.com/nortonlifelock/database@master
+
 go install aegis/aegis.go
 go install aegis-api/aegis-api.go
 go install aegis-scaffold/aegis-scaffold.go
