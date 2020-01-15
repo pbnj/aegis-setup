@@ -30,6 +30,6 @@ aegis-scaffold -config app.json \
     -dal $GOPATH/pkg/mod/github.com/nortonlifelock/database\@v1.0.1-0.20200115223011-2830f95ef135 \
     -sproc $GOPATH/src/nortonlifelock/aegis-db/procedures \
     -migrate $GOPATH/src/nortonlifelock/aegis-db/migrations \
-    -tpath $GOPATH/src/nortonlifelock/aegis-scaffold -m
+    -tpath $GOPATH/src/nortonlifelock/aegis-scaffold -m -p
   
 install-org -path $GOPATH/src/nortonlifelock/app.json
