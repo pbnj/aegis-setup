@@ -1,8 +1,8 @@
 # Aegis Setup
 ## Prerequisites
-* go installed
+* go installed (version supporting go modules)
 * $GOPATH set
-* Have ~/.aws/credentials and ~/.aws/config setup
+* Have ~/.aws/credentials and ~/.aws/config setup (or some other form of AWS authentication - see https://docs.aws.amazon.com/sdk-for-go/v1/developer-guide/configuring-sdk.html#specifying-credentials)
 
 ## Have ready
 * Credentials for all API accounts

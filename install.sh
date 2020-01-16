@@ -1,4 +1,11 @@
-# TODO - how to handle versions?
+if ! command -v go > /dev/null;
+  then echo 'You must have a go version supporting go modules'; exit;
+fi
+
+if [ -z "$GOPATH" ]
+  then echo "\$GOPATH must be set"; exit;
+fi
+
 cd $GOPATH/src/nortonlifelock || exit
 
 git clone https://github.com/nortonlifelock/aegis-scaffold.git
@@ -22,6 +29,7 @@ go install install-org/install-org.go
 
 install-config -path $GOPATH/src/nortonlifelock
 
+# TODO - how to handle versions in domain/database repositories?
 aegis-scaffold -config app.json \
     -cpath $GOPATH/src/nortonlifelock \
     -domain $GOPATH/pkg/mod/github.com/nortonlifelock/domain\@v1.0.1-0.20200115222954-e687eaaa4352 \

@@ -60,6 +60,11 @@ func main() {
 
 	fmt.Print("Enter the path to the directory where logs will be stored: ")
 	conf.LogFilePath = getInput(reader)
+
+	if strings.Index(conf.LogFilePath, "/") < 0 && strings.Index(conf.LogFilePath, "\\") < 0 {
+		conf.LogFilePath = fmt.Sprintf("%s/%s", *aegisPath, conf.LogFilePath)
+	}
+
 	check(err)
 	if _, err := os.Stat(conf.LogFilePath); os.IsNotExist(err) {
 		_ = os.Mkdir(conf.LogFilePath, os.ModePerm)
