@@ -158,6 +158,10 @@ func createTicketSourceConfig(reader *bufio.Reader, aesClient crypto.Client, db 
 		fmt.Println("What's the address for the API of your ticketing instance? (do not include port)")
 		address := getInput(reader)
 
+		if strings.Index(address, "http://") < 0 && strings.Index(address, "https://") < 0 {
+			address = fmt.Sprintf("https://%s", address)
+		}
+
 		fmt.Println("What port does the API listen on? (leave empty if NA)")
 		port := getInput(reader)
 
@@ -276,6 +280,10 @@ func createScannerSourceConfig(reader *bufio.Reader, aesClient crypto.Client, db
 
 				fmt.Println("What's the address for the API of your vulnerability scanner instance? (do not include port)")
 				address := getInput(reader)
+
+				if strings.Index(address, "http://") < 0 && strings.Index(address, "https://") < 0 {
+					address = fmt.Sprintf("https://%s", address)
+				}
 
 				fmt.Println("What port does the API listen on? (leave empty if NA)")
 				port := getInput(reader)

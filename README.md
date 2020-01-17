@@ -35,4 +35,4 @@ chmod +x aegis-setup/install.sh
 ```
 
 ## Running Aegis
-TODO
+aegis –cpath $GOPATH/src/nortonlifelock
