@@ -20,6 +20,7 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"time"
 )
 
 const (
@@ -88,7 +89,10 @@ func createJobConfigs(db domain.DatabaseConnection, orgID, scannerSCID, ticketSC
 	}
 	exceptionRsqBody, err := json.Marshal(&exceptionRsqPayload)
 	check(err)
-	ticketingPayload := implementations.TicketingPayload{}
+	now := time.Now()
+	ticketingPayload := implementations.TicketingPayload{
+		MinDate: &now,
+	}
 	ticketingBody, err := json.Marshal(&ticketingPayload)
 	check(err)
 	assetSyncPayload := implementations.AssetSyncPayload{
@@ -315,10 +319,10 @@ func createScannerSourceConfig(reader *bufio.Reader, aesClient crypto.Client, db
 					fmt.Println("Enter the ID of the scan template that will be used for discovery scans")
 					payload.DiscoveryTemplate = getInput(reader)
 
-					fmt.Println("Enter the name of the scan format you would like your vulnerability scans to have (must contain a single '%s' to be replaced with the scan creation date)")
+					fmt.Println("Enter the name of the scan format you would like your vulnerability scans to have (will have the creation date appended by automation)")
 					payload.ScanNameFormat = getInput(reader)
 
-					fmt.Println("Enter the name of the scan format you would like your discovery scans to have (must contain a single '%s' to be replaced with the scan creation date)")
+					fmt.Println("Enter the name of the scan format you would like your discovery scans to have (will have the creation date appended by automation)")
 					payload.DiscoveryNameFormat = getInput(reader)
 
 					payload.RescanSite = getInputInt(reader, "Enter the site ID you will be using for rescans")
