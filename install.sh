@@ -29,11 +29,8 @@ go install install-org/install-org.go
 
 install-config -path $GOPATH/src/nortonlifelock
 
-# TODO - how to handle versions in domain/database repositories?
 aegis-scaffold -config app.json \
     -cpath $GOPATH/src/nortonlifelock \
-    -domain $GOPATH/pkg/mod/github.com/nortonlifelock/domain\@v1.0.1-0.20200115222954-e687eaaa4352 \
-    -dal $GOPATH/pkg/mod/github.com/nortonlifelock/database\@v1.0.1-0.20200115223011-2830f95ef135 \
     -sproc $GOPATH/src/nortonlifelock/aegis-db/procedures \
     -migrate $GOPATH/src/nortonlifelock/aegis-db/migrations \
     -tpath $GOPATH/src/nortonlifelock/aegis-scaffold -m -p
